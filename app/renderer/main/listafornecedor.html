@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link href="https://cdn.datatables.net/2.3.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/3.0.8/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <title>Lista de Fornecedores</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!--aqui teremos a navegação por bradcrump-->
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><span onclick="window.electronAPI.openPage('index.html')"
+                                style="cursor: pointer;">Home</button></li>
+                        <li class="breadcrumb-item active" aria-current="page">Fornecedores</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="width: 100%;">
+                    <div class="card-header">
+                        <button class="btn btn-primary" onclick="window.electronAPI.openPage('fornecedor.html')">
+                            Cadastrar Fornecedores
+                        </button>
+
+                    </div>
+                    <div class="card-body">
+                        <table id="tabela" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>CPF_CNPJ</th>
+                                    <th>Telefone</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.8/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.8/js/responsive.bootstrap5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="listafornecedor.js"></script>
+</body>
+
+</html>
