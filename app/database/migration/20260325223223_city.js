@@ -1,25 +1,22 @@
-export function up(knex) {
-    return knex.schema.createTable('customer', (table) => {
-        table.comment('Tabela de clientes disponíveis no sistema.');
+exports.up = function (knex) {
+    return knex.schema.createTable('city', (table) => {
+        table.comment('Tabela com os dados de todos os municípios do pais');
         table.bigIncrements('id').primary();
-        table.text('nome').notNullable();
-        table.text('cpf');
-        table.text('rg');
-        table.boolean('ativo').defaultTo(true);
-        table.boolean('excluido').defaultTo(false);
+        table.bigInteger('id_uf');
+        table.text('codigo').nullable();
+        table.text('nome').nullable();
         // Data e hora de criação do registro — preenchida automaticamente
         table.timestamp('criado_em', { useTz: false })
-            .notNullable()
             .defaultTo(knex.fn.now())
             .comment('Data e hora de criação do registro');
         // Data e hora da última atualização — atualizada automaticamente via trigger
         table.timestamp('atualizado_em', { useTz: false })
-            .nullable()
             .defaultTo(knex.fn.now())
             .comment('Data e hora da última atualização do registro');
+        table.foreign('id_uf').references('id').inTable('federative_unit').onDelete('CASCADE').onUpdate('NO ACTION');
     });
-}
+};
 
-export function down(knex) {
-    return knex.schema.dropTable('customer');
-}
+exports.down = function (knex) {
+    return knex.schema.dropTable('city');
+};

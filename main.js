@@ -9,12 +9,10 @@ app.whenReady().then(() => {
     const win = Template.create('main', {
         width: 1280,
         height: 800,
-        title: 'Montanha',
+        title: 'DESKIVO',
     });
 
-    // A página principal atual fica em app/renderer/main/index.html
-    // 'pages/home' é mapeado para 'home.html' automaticamente no Template.
-    Template.loadView(win, 'index');
+    Template.loadView(win, 'pages/home');
     win.maximize();
 });
 

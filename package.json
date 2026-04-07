@@ -1,19 +1,28 @@
 {
-    "name": "montanha",
+    "name": "deskivo",
     "version": "1.0.0",
     "main": "main.js",
     "type": "module",
     "private": true,
     "scripts": {
-        "start": "electron .",
+        "start": "chcp 65001 >nul && electron .",
         "build:win": "electron-builder --win",
         "build:linux": "electron-builder --linux",
-        "build:all": "electron-builder --win --linux"
+        "build:mac": "electron-builder --mac",
+        "build:all": "electron-builder --win --linux --mac",
+        "test": "vitest",
+        "test:unit": "vitest --project unit",
+        "test:int": "vitest --project integration",
+        "test:feat": "vitest --project feature",
+        "test:fact": "vitest --project factories",
+        "test:arch": "vitest --project architecture",
+        "test:run": "vitest run",
+        "test:coverage": "vitest run --coverage"
     },
     "build": {
-        "appId": "montanha.app",
-        "productName": "montanha",
-        "copyright": "Copyright © 2026 montanha",
+        "appId": "com.deskivo.app",
+        "productName": "Deskivo",
+        "copyright": "Copyright © 2026 Deskivo",
         "directories": {
             "output": "dist"
         },
@@ -44,17 +53,17 @@
                     ]
                 }
             ],
-            "icon": "app/assets/icon.ico"
+            "icon": "app/view/pages/assets/img/icon.png"
         },
         "nsis": {
             "oneClick": false,
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "montanha",
-            "installerIcon": "app/assets/icon.ico",
-            "uninstallerIcon": "app/assets/icon.ico",
-            "installerHeaderIcon": "app/assets/icon.ico"
+            "shortcutName": "Deskivo",
+            "installerIcon": "app/view/pages/assets/img/icon.png",
+            "uninstallerIcon": "app/view/pages/assets/img/icon.png",
+            "installerHeaderIcon": "app/view/pages/assets/img/icon.png"
         },
         "linux": {
             "target": [
@@ -71,16 +80,17 @@
                     ]
                 }
             ],
-            "icon": "app/assets/icon.png",
+            "icon": "app/view/pages/assets/img/icon.png",
             "category": "Office"
         }
     },
     "devDependencies": {
-        "drizzle-kit": "^0.31.9",
-        "electron": "^40.8.1",
-        "electron-builder": "^25.1.8"
+        "electron": "^41.0.4",
+        "electron-builder": "^25.1.8",
+        "vitest": "^4.1.2"
     },
     "dependencies": {
+        "@faker-js/faker": "^10.4.0",
         "@fortawesome/fontawesome-free": "^7.2.0",
         "bootstrap": "^5.3.8",
         "datatables.net-bs5": "^2.3.7",
@@ -88,7 +98,7 @@
         "dotenv": "^17.3.1",
         "inputmask": "^5.0.9",
         "jquery": "^4.0.0",
-        "knex": "^3.1.0",
+        "knex": "^3.2.5",
         "nunjucks": "^3.2.4",
         "pg": "^8.20.0",
         "sweetalert2": "^11.26.23"

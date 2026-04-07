@@ -22,5 +22,35 @@ contextBridge.exposeInMainWorld('api', {
         onReload(callback) {
             ipcRenderer.on('customer:reload', () => callback());
         },
+    },
+    product: {
+        find(where) { return ipcRenderer.invoke('product:find', where); },
+        findById(id) { return ipcRenderer.invoke('product:findById', id); },
+        onReload(callback) {
+            ipcRenderer.on('product:reload', () => callback());
+        },
+    },
+    
+    supplier: {
+        insert(data) { return ipcRenderer.invoke('supplier:insert', data); },
+        find(where) { return ipcRenderer.invoke('supplier:find', where); },
+        findById(id) { return ipcRenderer.invoke('supplier:findById', id); },
+        update(id, data) { return ipcRenderer.invoke('supplier:update', id, data); },
+        delete(id) { return ipcRenderer.invoke('supplier:delete', id); },
+        onReload(callback) {
+            ipcRenderer.on('supplier:reload', () => callback());
+        },
+    },
+
+    users: {
+        insert(data) { return ipcRenderer.invoke('user:insert', data); },
+        find(where) { return ipcRenderer.invoke('user:find', where); },
+        findById(id) { return ipcRenderer.invoke('user:findById', id); },
+        update(id, data) { return ipcRenderer.invoke('user:update', id, data); },
+        delete(id) { return ipcRenderer.invoke('user:delete', id); },
+        onReload(callback) {
+            ipcRenderer.on('user:reload', () => callback());
+        },
     }
 });
+

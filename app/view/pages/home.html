@@ -1,0 +1,89 @@
+{% extends "layouts/main.html" %}
+
+{% block title %}DESKIVO — Home{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="file:///{{ assets }}/css/home.css">
+{% endblock %}
+
+{% block menu %}
+{% include "../partial/header.html" %}
+{% endblock %}
+
+{% block content %}
+<h1>Painel Principal</h1>
+
+<div class="row p-3">
+
+    <!-- PRODUTOS -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box text-bg-primary" onclick="api.window.open('pages/list-product', { title: 'Produtos' })">
+            <div class="inner">
+                <h3>150</h3>
+                <p>Produtos</p>
+            </div>
+            <i class="fa-solid fa-barcode fa-2xl"></i>
+            <a href="#" class="small-box-footer link-light">
+                Mais informações <i class="bi bi-link-45deg"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- CLIENTES -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box text-bg-warning" onclick="api.window.open('pages/list-customer', { title: 'Clientes' })">
+            <div class="inner">
+                <h3>44</h3>
+                <p>Clientes</p>
+            </div>
+            <i class="fa-solid fa-user-group fa-2xl"></i>
+            <a href="#" class="small-box-footer link-dark">
+                Mais informações <i class="bi bi-link-45deg"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- FORNECEDORES -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box text-bg-success" onclick="api.window.open('pages/list-supplier', { title: 'Fornecedores' })">
+            <div class="inner">
+                <h3>20</h3>
+                <p>Fornecedores</p>
+            </div>
+            <i class="fa-solid fa-truck fa-2xl"></i>
+            <a href="#" class="small-box-footer link-light">
+                Mais informações <i class="bi bi-link-45deg"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- EMPRESAS -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box text-bg-danger" onclick="api.window.open('pages/list-company', { title: 'Empresas' })">
+            <div class="inner">
+                <h3>5</h3>
+                <p>Empresas</p>
+            </div>
+            <i class="fa-solid fa-building fa-2xl"></i>
+            <a href="#" class="small-box-footer link-light">
+                Mais informações <i class="bi bi-link-45deg"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- USUÁRIOS -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box text-bg-info" onclick="api.window.open('pages/list-users', { title: 'Usuários' })">
+            <div class="inner">
+                <h3>12</h3>
+                <p>Usuários</p>
+            </div>
+            <i class="fa-solid fa-user fa-2xl"></i>
+            <a href="#" class="small-box-footer link-dark">
+                Mais informações <i class="bi bi-link-45deg"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
