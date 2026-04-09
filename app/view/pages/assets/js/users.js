@@ -1,11 +1,13 @@
-const InsertButton = document.getElementById('insert');
-const Action = document.getElementById('action');
-const Id = document.getElementById('id');
-const form = document.getElementById('form');
 
-// CARREGA DADOS DE EDIÇÃO (se existirem)
+const InsertButton = document.getElementById('insert');
+const Action = document.getElementById('action')
+const Id = document.getElementById('id')
+const form = document.getElementById('form');
+Inputmask('999.999.999-99').mask('#cpf');
+
+//  CARREGA DADOS DE EDIÇÃO (se existirem)
 (async () => {
-    const editData = await api.temp.get('user:edit');
+    const editData = await api.temp.get('users:edit');
     if (editData) {
         // Modo edição
         Action.value = editData.action || 'e';
@@ -13,6 +15,7 @@ const form = document.getElementById('form');
         // Preenche todos os campos pelo atributo name
         for (const [key, value] of Object.entries(editData)) {
             const field = form.querySelector(`[name="${key}"]`);
+
             if (!field) continue;
 
             if (field.type === 'checkbox') {
@@ -29,26 +32,23 @@ const form = document.getElementById('form');
 })();
 
 InsertButton.addEventListener('click', async () => {
-    const timer = 3000;
+    let timer = 3000;
     $('#insert').prop('disabled', true);
-
     const data = formToJson(form);
     // Se NÃO é cadastro novo, pega o ID para update
-    const id = Action.value !== 'c' ? Id.value : null;
-
+    let id = Action.value !== 'c' ? Id.value : null;
     try {
+
         const response = Action.value === 'c'
-            ? await api.user.insert(data)
-            : await api.user.update(id, data);
+            ? await api.users.insert(data)
+            : await api.users.update(id, data);
 
         if (!response.status) {
             toast('error', 'Erro', response.msg, timer);
             return;
         }
-
         toast('success', 'Sucesso', response.msg, timer);
         form.reset();
-
         // Fecha a janela modal após 1.5s (tempo do toast)
         setTimeout(() => {
             api.window.close();

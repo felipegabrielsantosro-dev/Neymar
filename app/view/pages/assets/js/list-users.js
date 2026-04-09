@@ -1,41 +1,34 @@
-import { Datatables } from "../components/Datatables.js";
+import {Datatables} from "../components/Datatables.js"
 
-// Atualiza a tabela quando a API sinaliza reload
-api.user.onReload(() => {
+api.users.onReload(() => {
     $('#table-users').DataTable().ajax.reload(null, false);
 });
 
-// Inicializa a tabela
 Datatables.SetTable('#table-users', [
     { data: 'id' },
     { data: 'nome' },
-    { data: 'email' },
-    { data: 'enterprise_id' },
-    { 
-        data: 'ativo',
-        render: function (value) {
-            return value ? 'Sim' : 'Não';
-        }
-    },
+    { data: 'sobrenome' },
+    { data: 'cpf' },
+    { data: 'rg' },
+    { data: 'ativo' },
     {
         data: null,
         orderable: false,
         searchable: false,
         render: function (row) {
             return `
-                <button onclick="editUser(${row.id})" class="btn btn-xs btn-warning btn-sm">
+                <button onclick="editUsers(${row.id})" class="btn btn-xs btn-warning btn-sm">
                     <i class="fa-solid fa-pen-to-square"></i> Editar
                 </button>
-                <button onclick="deleteUser(${row.id})" class="btn btn-xs btn-danger btn-sm">
+                <button onclick="deleteUsers(${row.id})" class="btn btn-xs btn-danger btn-sm">
                     <i class="fa-solid fa-trash"></i> Excluir
                 </button>
             `;
         }
     }
-]).getData(filter => api.user.find(filter));
+]).getData(filter => api.users.find(filter));
 
-// Função para excluir usuário
-async function deleteUser(id) {
+async function deleteUsers(id) {
     const result = await Swal.fire({
         title: 'Tem certeza?',
         text: 'Esta ação não pode ser desfeita.',
@@ -46,7 +39,7 @@ async function deleteUser(id) {
     });
 
     if (result.isConfirmed) {
-        const response = await api.user.delete(id);
+        const response = await api.users.delete(id);
 
         if (response.status) {
             toast('success', 'Excluído', response.msg);
@@ -57,34 +50,28 @@ async function deleteUser(id) {
     }
 }
 
-// Função para editar usuário
-async function editUser(id) {
+async function editUsers(id) {
     try {
-        // 1. Busca os dados completos do usuário
-        const user = await api.user.findById(id);
-        if (!user) {
-            toast('error', 'Erro', 'Usuário não encontrado.');
+        // 1. Busca os dados completos do Usuario
+        const users = await api.users.findById(id);
+        if (!users) {
+            toast('error', 'Erro', 'Usuario não encontrado.');
             return;
         }
-
         // 2. Salva no temp store com a ação 'e' (editar)
-        await api.temp.set('user:edit', {
+        await api.temp.set('users:edit', {
             action: 'e',
-            ...user,
+            ...users,
         });
-
-        // 3. Abre a modal com o caminho correto
-        api.window.openModal('pages/user.html', { // <- adicionamos .html
+        // 3. Abre a modal
+        api.window.openModal('pages/users', {
             width: 600,
             height: 500,
-            title: 'Editar Usuário',
+            title: 'Editar Usuario',
         });
-
     } catch (err) {
         toast('error', 'Falha', 'Erro: ' + err.message);
     }
 }
-
-// Expor funções para o escopo global (necessário para onclick)
-window.deleteUser = deleteUser;
-window.editUser = editUser;
+window.deleteUsers = deleteUsers;
+window.editUsers = editUsers;

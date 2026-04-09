@@ -3,6 +3,8 @@ import Template from '../mixin/Template.js';
 import Customer from '../controller/Customer.js';
 import Product from '../controller/Product.js';
 import Supplier from '../controller/Supplier.js';
+import Users from '../controller/Users.js';
+
 
 function getWin(event) {
     return BrowserWindow.fromWebContents(event.sender);
@@ -75,24 +77,68 @@ ipcMain.handle('product:find', async (_e, where = {}) => {
 ipcMain.handle('product:findById', async (_e, id) => {
     return await Product.findById(id);
 });
+
+ipcMain.handle('product:insert', async (_e, data) => {
+    const result = await Product.insert(data);
+    if (result.status) broadcastReload('product:reload');
+    return result;
+});
+ipcMain.handle('product:update', async (_e, id, data) => {
+    const result = await Product.update(id, data);
+    if (result.status) broadcastReload('product:reload');
+    return result;
+});
+ipcMain.handle('product:delete', async (_e, id) => {
+    const result = await Product.delete(id);
+    if (result.status) broadcastReload('product:reload');
+    return result;
+});
+ipcMain.handle('product:search', async (_e, term) => {
+    return await Product.search(term);
+});
+ipcMain.handle('product:searchByCustomer', async (_e, customerId) => {
+    return await Product.searchByCustomer(customerId);
+});
+ipcMain.handle('product:searchByCustomerAndTerm', async (_e, customerId, term) => {
+    return await Product.searchByCustomerAndTerm(customerId, term);
+});
+ipcMain.handle('product:searchByTerm', async (_e, term) => {
+    return await Product.searchByTerm(term);
+});
+ipcMain.handle('user:searchByCustomerAndTerm', async (_e, customerId, term) => {
+    return await User.searchByCustomerAndTerm(customerId, term);
+});
+ipcMain.handle('user:searchByTerm', async (_e, term) => {
+    return await User.searchByTerm(term);
+});
+ipcMain.handle('user:insert', async (_e, data) => {
+    const result = await User.insert(data);
+    if (result.status) broadcastReload('users:reload');
+    return result;
+});
+ipcMain.handle('user:search', async (_e, data) => {
+    const result = await User.search(data);
+    if (result.status) broadcastReload('users:reload');
+    return result;
+});
+ipcMain.handle('user:update', async (_e, id, data) => {
+    const result = await User.update(id, data);
+    if (result.status) broadcastReload('users:reload');
+    return result;
+});
+ipcMain.handle('user:delete', async (_e, data) => {
+    const result = await User .delete(data);
+    if (result.status) broadcastReload('users:reload');
+    return result;
+});
+ipcMain.handle('user:find', async (_e, where = {}) => {
+    return await User.find(where);
+});
+ipcMain.handle('user:findById', async (_e, id) => {
+    return await User.findById(id);
+});
 ipcMain.handle('supplier:insert', async (_e, data) => {
-    const result = await Supplier.insert(data);
-    if (result.status) broadcastReload('supplier:reload');
-    return result;
+    return await Supplier.insert(data);
 });
-ipcMain.handle('supplier:find', async (_e, where = {}) => {
-    return await Supplier.find(where);
-});
-ipcMain.handle('supplier:findById', async (_e, id) => {
-    return await Supplier.findById(id);
-});
-ipcMain.handle('supplier:update', async (_e, id, data) => {
-    const result = await Supplier.update(id, data);
-    if (result.status) broadcastReload('supplier:reload');
-    return result;
-});
-ipcMain.handle('supplier:delete', async (_e, id) => {
-    const result = await Supplier.delete(id);
-    if (result.status) broadcastReload('supplier:reload');
-    return result;
-});
+
+export default ipcMain; 

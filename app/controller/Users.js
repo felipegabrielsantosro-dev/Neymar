@@ -1,16 +1,14 @@
 import connection from '../database/Connection.js';
 
-export default class User {
-    // Tabela no banco
+export default class Users {
     static table = 'users';
 
-    // Mapeamento: índice da coluna no DataTable → nome no banco
-    static #columns = ['id', 'nome', 'email', 'enterprise_id', null];
+    // Adicionado RG
+    static #columns = ['id', 'nome', 'email', 'rg'];
 
-    // Colunas pesquisáveis pelo termo de busca
-    static #searchable = ['nome', 'email'];
+    static #searchable = ['nome', 'email', 'rg'];
 
-    // Insere um novo usuário
+    // INSERT
     static async insert(data) {
         if (!data.nome || data.nome.trim() === '') {
             return { status: false, msg: 'O campo nome é obrigatório', id: null, data: [] };
@@ -21,14 +19,14 @@ export default class User {
         if (!data.senha || data.senha.trim() === '') {
             return { status: false, msg: 'O campo senha é obrigatório', id: null, data: [] };
         }
-        if (!data.enterprise_id || isNaN(data.enterprise_id)) {
-            return { status: false, msg: 'O campo enterprise_id é obrigatório', id: null, data: [] };
+        if (!data.rg || data.rg.trim() === '') {
+            return { status: false, msg: 'O campo RG é obrigatório', id: null, data: [] };
         }
 
         try {
-            const clean = User.#sanitize(data);
+            const clean = Users.#sanitize(data);
 
-            const [result] = await connection(User.table)
+            const [result] = await connection(Users.table)
                 .insert(clean)
                 .returning('*');
 
@@ -38,17 +36,18 @@ export default class User {
         }
     }
 
-    // Pesquisa completa
+    // FIND
     static async find(data = {}) {
         const { term = '', limit = 10, offset = 0, orderType = 'asc', column = 0, draw = 1 } = data;
-        const [{ count: total }] = await connection(User.table).count('id as count');
+
+        const [{ count: total }] = await connection(Users.table).count('id as count');
 
         const search = term?.trim();
 
         function applySearch(query) {
             if (search) {
                 query.where(function () {
-                    for (const col of User.#searchable) {
+                    for (const col of Users.#searchable) {
                         this.orWhereRaw(`CAST("${col}" AS TEXT) ILIKE ?`, [`%${search}%`]);
                     }
                 });
@@ -56,14 +55,14 @@ export default class User {
             return query;
         }
 
-        const filteredQ = connection(User.table).count('id as count');
+        const filteredQ = connection(Users.table).count('id as count');
         applySearch(filteredQ);
         const [{ count: filtered }] = await filteredQ;
 
-        const orderColumn = User.#columns[column] || 'id';
+        const orderColumn = Users.#columns[column] || 'id';
         const orderDir = orderType === 'desc' ? 'desc' : 'asc';
 
-        const dataQ = connection(User.table).select('*');
+        const dataQ = connection(Users.table).select('*');
         applySearch(dataQ);
         dataQ.orderBy(orderColumn, orderDir);
         dataQ.limit(parseInt(limit));
@@ -79,20 +78,22 @@ export default class User {
         };
     }
 
-    // Exclui usuário
+    // DELETE
     static async delete(id) {
         if (!id) return { status: false, msg: 'ID é obrigatório' };
+
         try {
-            await connection(User.table).where({ id }).del();
+            await connection(Users.table).where({ id }).del();
             return { status: true, msg: 'Excluído com sucesso!' };
         } catch (err) {
             return { status: false, msg: 'Erro: ' + err.message };
         }
     }
 
-    // Atualiza usuário
+    // UPDATE
     static async update(id, data) {
         if (!id) return { status: false, msg: 'ID é obrigatório', data: [] };
+
         if (!data.nome || data.nome.trim() === '') {
             return { status: false, msg: 'O campo nome é obrigatório', data: [] };
         }
@@ -102,15 +103,15 @@ export default class User {
         if (!data.senha || data.senha.trim() === '') {
             return { status: false, msg: 'O campo senha é obrigatório', data: [] };
         }
-        if (!data.enterprise_id || isNaN(data.enterprise_id)) {
-            return { status: false, msg: 'O campo enterprise_id é obrigatório', data: [] };
+        if (!data.rg || data.rg.trim() === '') {
+            return { status: false, msg: 'O campo RG é obrigatório', data: [] };
         }
 
         try {
-            const clean = User.#sanitize(data);
+            const clean = Users.#sanitize(data);
             delete clean.id;
 
-            const [result] = await connection(User.table)
+            const [result] = await connection(Users.table)
                 .where({ id })
                 .update(clean)
                 .returning('*');
@@ -125,23 +126,26 @@ export default class User {
         }
     }
 
-    // Retorna um usuário pelo ID
+    // FIND BY ID
     static async findById(id) {
         if (!id) return null;
-        const row = await connection(User.table).where({ id }).first();
+        const row = await connection(Users.table).where({ id }).first();
         return row || null;
     }
 
-    // Sanitiza dados do formulário
+    // SANITIZE
     static #sanitize(data) {
-        const ignore = ['id', 'action'];
+        const ignore = ['id', 'action', 'enterprise_id'];
+
         const clean = {};
 
         for (const [key, value] of Object.entries(data)) {
             if (ignore.includes(key)) continue;
             if (value === '' || value === null || value === undefined) continue;
+
             if (value === 'true') { clean[key] = true; continue; }
             if (value === 'false') { clean[key] = false; continue; }
+
             clean[key] = value;
         }
 
