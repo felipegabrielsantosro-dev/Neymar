@@ -4,6 +4,7 @@ import Customer from '../controller/Customer.js';
 import Product from '../controller/Product.js';
 import Supplier from '../controller/Supplier.js';
 import Users from '../controller/Users.js';
+import Print from '../mixin/Print.js';
 
 
 function getWin(event) {
@@ -15,6 +16,13 @@ function broadcastReload(channel) {
         win.webContents.send(channel);
     }
 }
+
+ipcMain.handle('print:html', async (_e, html) => {
+    await Print.create()
+        .stringHtml(html)
+        .print();
+});
+
 //  WINDOW
 ipcMain.handle('window:open', (_e, name, opts = {}) => {
     const win = Template.create(name, opts);
@@ -127,7 +135,7 @@ ipcMain.handle('user:update', async (_e, id, data) => {
     return result;
 });
 ipcMain.handle('user:delete', async (_e, data) => {
-    const result = await User .delete(data);
+    const result = await User.delete(data);
     if (result.status) broadcastReload('users:reload');
     return result;
 });

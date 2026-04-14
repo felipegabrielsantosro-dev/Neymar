@@ -1,32 +1,34 @@
 import {Datatables} from "../components/Datatables.js"
 
-api.customer.onReload(() => {
-    $('#table-customers').DataTable().ajax.reload(null, false);
+api.enterprise.onReload(() => {
+    $('#table-enterprises').DataTable().ajax.reload(null, false);
 });
 
-Datatables.SetTable('#table-customers', [
+Datatables.SetTable('#table-enterprises', [
     { data: 'id' },
-    { data: 'nome' },
-    { data: 'cpf' },
-    { data: 'rg' },
+    { data: 'fantasia' },
+    { data: 'razao_social' },
+    { data: 'cnpj' },
+    { data: 'ie' },
+    { data: 'ativo' },
     {
         data: null,
         orderable: false,
         searchable: false,
         render: function (row) {
             return `
-                <button onclick="editCustomer(${row.id})" class="btn btn-xs btn-warning btn-sm">
+                <button onclick="editEnterprise(${row.id})" class="btn btn-xs btn-warning btn-sm">
                     <i class="fa-solid fa-pen-to-square"></i> Editar
                 </button>
-                <button onclick="deleteCustomer(${row.id})" class="btn btn-xs btn-danger btn-sm">
+                <button onclick="deleteEnterprise(${row.id})" class="btn btn-xs btn-danger btn-sm">
                     <i class="fa-solid fa-trash"></i> Excluir
                 </button>
             `;
         }
     }
-]).getData(filter => api.customer.find(filter));
+]).getData(filter => api.enterprise.find(filter));
 
-async function deleteCustomer(id) {
+async function deleteEnterprise(id) {
     const result = await Swal.fire({
         title: 'Tem certeza?',
         text: 'Esta ação não pode ser desfeita.',
@@ -37,39 +39,39 @@ async function deleteCustomer(id) {
     });
 
     if (result.isConfirmed) {
-        const response = await api.customer.delete(id);
+        const response = await api.enterprise.delete(id);
 
         if (response.status) {
             toast('success', 'Excluído', response.msg);
-            $('#table-customers').DataTable().ajax.reload();
+            $('#table-enterprises').DataTable().ajax.reload();
         } else {
             toast('error', 'Erro', response.msg);
         }
     }
 }
 
-async function editCustomer(id) {
+async function editEnterprise(id) {
     try {
-        // 1. Busca os dados completos do cliente
-        const customer = await api.customer.findById(id);
-        if (!customer) {
-            toast('error', 'Erro', 'Cliente não encontrado.');
+        // 1. Busca os dados completos do Empresas
+        const enterprise = await api.enterprise.findById(id);
+        if (!enterprise) {
+            toast('error', 'Erro', 'Empresas não encontrado.');
             return;
         }
         // 2. Salva no temp store com a ação 'e' (editar)
-        await api.temp.set('customer:edit', {
+        await api.temp.set('enterprise:edit', {
             action: 'e',
-            ...customer,
+            ...enterprise,
         });
         // 3. Abre a modal
-        api.window.openModal('pages/customer', {
+        api.window.openModal('pages/enterprise', {
             width: 600,
             height: 500,
-            title: 'Editar Cliente',
+            title: 'Editar Empresas',
         });
     } catch (err) {
         toast('error', 'Falha', 'Erro: ' + err.message);
     }
 }
-window.deleteCustomer = deleteCustomer;
-window.editCustomer = editCustomer;
+window.deleteEnterprise = deleteEnterprise;
+window.editEnterprise = editEnterprise;
