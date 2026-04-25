@@ -1,3 +1,8 @@
 node_modules/
+package-lock.json
 storage/
-dist/
+/storage/
+/config/preload.js
+/route/route.js
+index.js/
+/storage/

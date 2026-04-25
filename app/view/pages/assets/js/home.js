@@ -1,39 +1,27 @@
- async function refreshDashboard() {
-        try {
-            
-            const stats = await api.dashboard.getStats();
-            
-            console.log("Dados recebidos:", stats); 
+document.addEventListener('DOMContentLoaded', async () => {
+    const safe = (fn) => fn().catch((err) => { console.error(err); return 0; });
 
-            const prodElem = document.getElementById('count-products');
-            const custElem = document.getElementById('count-customers');
-            const useElem = document.getElementById('count-users');
-            const enterElem = document.getElementById('count-enterprises');
-            const fornElem = document.getElementById('count-suppliers');
+    async function loadCounts() {
+        const [totalClientes, totalEmpresas] = await Promise.all([
+            safe(() => api.supplier.count()),
+            safe(() => api.product.count()),
+        ]);
 
-            
-            if (stats) {
-                if (prodElem) prodElem.innerText = stats.totalProducts ?? 0;
-                if (custElem) custElem.innerText = stats.totalCustomers ?? 0;
-                if (useElem) useElem.innerText = stats.totalUsers ?? 0;
-                if (enterElem) enterElem.innerText = stats.totalEnterprises ?? 0;
-                if (fornElem) fornElem.innerText = stats.totalSuppliers ?? 0;
-            }
-        } catch (err) {
-            console.error("Erro ao atualizar dashboard:", err);
+        document.getElementById('count-fornecedore').textContent = totalfornecedor;
+        document.getElementById('count-produto').textContent = totalproduto;
+            safe(() => api.customer.count()),
+            safe(() => api.company.count()),
+        ]);
 
-            document.getElementById('count-products').innerText = "0";
-            document.getElementById('count-customers').innerText = "0";
-            document.getElementById('count-users').innerText = "0";
-            document.getElementById('count-enterprises').innerText = "0";
-            document.getElementById('count-suppliers').innerText = "0";
-        }
+        document.getElementById('count-clientes').textContent = totalClientes;
+        document.getElementById('count-empresas').textContent = totalEmpresas;
     }
-    
-    window.addEventListener('DOMContentLoaded', refreshDashboard);
 
-    api.product.onReload(refreshDashboard);
-    api.customer.onReload(refreshDashboard);
-    api.users.onReload(refreshDashboard);
-    api.enterprise.onReload(refreshDashboard);
-    api.supplier.onReload(refreshDashboard);
+    await loadCounts();
+
+    api.supplier.onReload(() => loadCounts());
+    api.product.onReload(() => loadCounts());
+}); 
+    api.customer.onReload(() => loadCounts());
+    api.company.onReload(() => loadCounts());
+});

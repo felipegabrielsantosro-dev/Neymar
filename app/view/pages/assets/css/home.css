@@ -3,27 +3,20 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-    /* Cores Premium */
-    --warning-gradient-start: #ffc107;
-    --warning-gradient-end: #ff9800;
-    --warning-dark: #ff8c00;
-    --warning-light: #ffd663;
+    --warning-gradient-start: #014ce1;
+    --warning-gradient-end: #624ae8;
+    --warning-dark: #0033ff;
+    --warning-light: #6378ff;
 
-    /* Efeitos */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
     --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.15);
     --shadow-hover: 0 20px 50px rgba(255, 152, 0, 0.25);
 
-    /* Transições */
     --transition-fast: 0.2s ease-out;
     --transition-smooth: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     --transition-ease: 0.3s ease-in-out;
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CONTAINER PRINCIPAL
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 .small-box {
     position: relative;
@@ -40,10 +33,8 @@
     background: linear-gradient(135deg, var(--warning-gradient-start) 0%, var(--warning-gradient-end) 100%) !important;
     box-shadow: var(--shadow-md);
     backdrop-filter: blur(10px);
-    position: relative;
 }
 
-/* Efeito de Background Animado - Gradiente Dinâmico */
 .small-box::before {
     content: '';
     position: absolute;
@@ -51,7 +42,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg,
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+        linear-gradient(135deg,
             rgba(255, 255, 255, 0.1) 0%,
             rgba(255, 255, 255, 0) 50%,
             rgba(0, 0, 0, 0.05) 100%);
@@ -59,7 +53,6 @@
     border-radius: 16px;
 }
 
-/* Overlay Brilhante no Hover */
 .small-box::after {
     content: '';
     position: absolute;
@@ -73,7 +66,6 @@
     pointer-events: none;
 }
 
-/* Estado Hover - Transformação Premium */
 .small-box:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: var(--shadow-hover);
@@ -83,10 +75,6 @@
     opacity: 1;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   CONTEÚDO INTERNO
-   ═══════════════════════════════════════════════════════════════════════════ */
-
 .small-box .inner {
     position: relative;
     z-index: 2;
@@ -94,10 +82,6 @@
     flex-direction: column;
     gap: 8px;
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   NÚMERO PRINCIPAL (H3)
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 .small-box h3 {
     font-size: 52px;
@@ -107,42 +91,7 @@
     color: #fff;
     text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     line-height: 1;
-
-    /* Animação ao carregar */
-    animation: slideInNumber 0.6s var(--transition-smooth) backwards;
 }
-
-@keyframes slideInNumber {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.small-box:hover h3 {
-    animation: numberPulse 0.4s ease-out;
-}
-
-@keyframes numberPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.08);
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   RÓTULO (P)
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 .small-box p {
     font-size: 16px;
@@ -151,26 +100,7 @@
     margin: 0;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-
-    /* Animação ao carregar */
-    animation: slideInLabel 0.6s var(--transition-smooth) 0.1s backwards;
 }
-
-@keyframes slideInLabel {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   ÍCONE SVG
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 .small-box-icon {
     width: 90px;
@@ -188,10 +118,6 @@
     transform: rotate(-15deg) scale(1.15);
     color: rgba(255, 255, 255, 0.35);
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   LINK "MORE INFO"
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 .small-box-footer {
     position: relative;
@@ -226,7 +152,6 @@
     opacity: 1;
 }
 
-/* Linha de hover para o link */
 .small-box-footer::before {
     content: '';
     position: absolute;
@@ -241,24 +166,6 @@
 .small-box-footer:hover::before {
     width: 100%;
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   EFEITO DE PARTÍCULAS DECORATIVAS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.small-box::before {
-    background:
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-        linear-gradient(135deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0) 50%,
-            rgba(0, 0, 0, 0.05) 100%);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   VARIANTES DE COR (Se usado com outras classes)
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 .text-bg-success.small-box {
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
@@ -299,10 +206,6 @@
 .text-bg-secondary.small-box:hover {
     box-shadow: 0 20px 50px rgba(108, 117, 125, 0.25);
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVIDADE
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
     .small-box {
@@ -356,10 +259,6 @@
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   ACESSIBILIDADE
-   ═══════════════════════════════════════════════════════════════════════════ */
-
 @media (prefers-reduced-motion: reduce) {
 
     .small-box,
@@ -367,20 +266,14 @@
     .small-box p,
     .small-box-icon,
     .small-box-footer {
-        animation: none !important;
         transition: none !important;
     }
 }
 
-/* Focus para navegação por teclado */
 .small-box-footer:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   TEMAS ESCUROS (Se aplicável)
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 @media (prefers-color-scheme: dark) {
     .small-box {
@@ -389,5 +282,86 @@
 
     .small-box:hover {
         box-shadow: 0 20px 50px rgba(255, 152, 0, 0.35);
+    }
+
+    .small-box {
+        min-height: 130px;
+        padding: 18px;
+    }
+
+    .small-box h3 {
+        font-size: 36px;
+    }
+
+    .small-box p {
+        font-size: 13px;
+    }
+
+    .card-produtos {
+        background: linear-gradient(135deg, #007bff 0%, #dbe25d 100%) !important;
+    }
+
+    .card-produtos:hover {
+        box-shadow: 0 20px 50px rgba(0, 123, 255, 0.3) !important;
+    }
+
+    /* Clientes - Amarelo/Laranja (Padrão do seu :root) */
+    .card-clientes {
+        background: linear-gradient(135deg, #007bff 0%, #5dade2 100%) !important;
+    }
+
+    .card-clientes:hover {
+         box-shadow: 0 20px 50px rgba(0, 123, 255, 0.3) !important;
+    }
+
+    /* Fornecedores - Verde */
+    .card-fornecedores {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+    }
+
+    .card-fornecedores:hover {
+        box-shadow: 0 20px 50px rgba(40, 167, 69, 0.3) !important;
+    }
+
+    /* Empresas - Ciano/Info */
+    .card-empresas {
+        background: linear-gradient(135deg, #17a2b8 0%, #00bcd4 100%) !important;
+    }
+
+    .card-empresas:hover {
+        box-shadow: 0 20px 50px rgba(23, 162, 184, 0.3) !important;
+    }
+
+    /* Usuários - Roxo/Indigo */
+    .card-compra {
+        background: linear-gradient(135deg, #c8c0d6 0%, #b7b2bd 100%) !important;
+    }
+
+    .card-compra:hover {
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
+    }
+    /* Usuários - Roxo/Indigo */
+    .card-vendas {
+        background: linear-gradient(135deg, #cf0f39 0%, #c04b60 100%) !important;
+    }
+
+    .card-vendas:hover {
+        box-shadow: 0 20px 50px rgba(209, 3, 3, 0.3) !important;
+    }
+
+    /* Ajuste fino para os ícones dentro do seu HTML atual */
+    .small-box .icon {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        font-size: 60px;
+        color: rgba(255, 255, 255, 0.25);
+        transition: all var(--transition-smooth);
+        z-index: 1;
+    }
+
+    .small-box:hover .icon {
+        transform: rotate(-15deg) scale(1.1);
+        color: rgba(255, 255, 255, 0.4);
     }
 }

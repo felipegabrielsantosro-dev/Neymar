@@ -1,37 +1,16 @@
-// Importa Datatables
-import { Datatables } from "../components/Datatables.js";
+import {Datatables} from "../components/Datatables.js"
 
-// Atualiza tabela quando houver reload
 api.supplier.onReload(() => {
-    $('#table-supplier').DataTable().ajax.reload(null, false);
+    $('#table-suppliers').DataTable().ajax.reload(null, false);
 });
 
-// Inicializa a tabela
-Datatables.SetTable('#table-supplier', [
+Datatables.SetTable('#table-suppliers', [
     { data: 'id' },
-    { data: 'nome_fantasia' }, // Nome Fantasia
-    { data: 'razao_social' },  // Razão Social
-    { data: 'cnpj' },
-    {
-        data: 'ativo',
-        render: function (data) {
-            return data
-                ? `<span>Ativo <i class="fa-regular fa-square-check"></i></span>`
-                : `<span>Inativo <i class="fa-regular fa-square-full"></i></span>`;
-        }
-    },
-    {
-        data: 'criado_em',
-        render: function (data) {
-            return new Date(data).toLocaleString('pt-BR');
-        }
-    },
-    {
-        data: 'atualizado_em',
-        render: function (data) {
-            return new Date(data).toLocaleString('pt-BR');
-        }
-    },
+    { data: 'nome_fantasia' },
+    { data: 'razao_social' },
+    { data: 'cnpj_cpf' },
+    { data: 'ie_rg' },
+    { data: 'ativo' },
     {
         data: null,
         orderable: false,
@@ -49,7 +28,6 @@ Datatables.SetTable('#table-supplier', [
     }
 ]).getData(filter => api.supplier.find(filter));
 
-// Função para excluir fornecedor
 async function deleteSupplier(id) {
     const result = await Swal.fire({
         title: 'Tem certeza?',
@@ -62,6 +40,7 @@ async function deleteSupplier(id) {
 
     if (result.isConfirmed) {
         const response = await api.supplier.delete(id);
+
         if (response.status) {
             toast('success', 'Excluído', response.msg);
             $('#table-suppliers').DataTable().ajax.reload();
@@ -71,28 +50,28 @@ async function deleteSupplier(id) {
     }
 }
 
-// Função para editar fornecedor
 async function editSupplier(id) {
     try {
+        // 1. Busca os dados completos do Fornecedor
         const supplier = await api.supplier.findById(id);
         if (!supplier) {
             toast('error', 'Erro', 'Fornecedor não encontrado.');
             return;
         }
+        // 2. Salva no temp store com a ação 'e' (editar)
         await api.temp.set('supplier:edit', {
             action: 'e',
             ...supplier,
         });
+        // 3. Abre a modal
         api.window.openModal('pages/supplier', {
-            width: 900,
-            height: 600,
+            width: 600,
+            height: 500,
             title: 'Editar Fornecedor',
         });
     } catch (err) {
         toast('error', 'Falha', 'Erro: ' + err.message);
     }
 }
-
-// Torna as funções globais
 window.deleteSupplier = deleteSupplier;
 window.editSupplier = editSupplier;

@@ -1,68 +1,67 @@
 {% extends "layouts/main.html" %}
-
-{% block title %}Novo Fornecedor{% endblock %}
+{% block title %}{{ action == 'edit' and 'Editar Fornecedor' or 'Novo Fornecedor' }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <h2>Cadastro de Fornecedor</h2>
+<div class="container-fluid py-4">
+    <div class="d-flex align-items-center gap-2 mb-4">
+        <i class="fa-solid fa-truck fa-lg text-success"></i>
+        <h4 class="mb-0 fw-semibold">{{ action == 'edit' and 'Editar Fornecedor' or 'Novo Fornecedor' }}</h4>
+    </div>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form id="form">
+                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="action" name="action">
+                <div class="row g-3 mb-3">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="nome_fantasia" name="nome_fantasia" placeholder="x" autofocus>
+                            <label for="nome_fantasia">Nome do Fornecedor</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="razao_social" name="razao_social" placeholder="x">
+                            <label for="razao_social">Razão Social</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="cnpj_cpf" name="cnpj_cpf" placeholder="x">
+                            <label for="cnpj_cpf">CNPJ/CPF</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="ie_rg" name="ie_rg" placeholder="x">
+                            <label for="ie_rg">Inscrição Estadual/RG</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="ativo" id="ativo" value="true" checked>
+                            <label class="form-check-label fw-medium" for="ativo">Fornecedor Ativo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-success px-4" id="insert">
+                        <i class="fa-solid fa-floppy-disk me-2"></i>Salvar
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary px-4" onclick="window.close()">
+                        <i class="fa-solid fa-xmark me-2"></i>Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<form id="form">
-    <input type="hidden" id="id" name="id">
-    <input type="hidden" id="action" name="action">
-
-    <!-- Linha 1: Nome Fantasia e Razão Social -->
-    <div class="row">
-        <div class="col-6">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="nome_fantasia" name="nome_fantasia" placeholder="Nome Fantasia" autofocus>
-                <label for="nome_fantasia">Nome Fantasia</label>
-            </div>
-        </div>
-
-        <div class="col-6">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="razao_social" name="razao_social" placeholder="Razão Social">
-                <label for="razao_social">Razão Social</label>
-            </div>
-        </div>
-    </div>
-
-    <!-- Linha 2: CNPJ -->
-    <div class="row">
-        <div class="col-6">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00">
-                <label for="cnpj">CNPJ</label>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkbox Ativo -->
-    <div class="row">
-        <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="ativo" id="ativo" value="true">
-                <label class="form-check-label" for="ativo">
-                    Ativo?
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <!-- Botão Salvar -->
-    <div class="row">
-        <div class="col-12">
-            <button type="button" class="btn btn-outline-success" id="insert">
-                <i class="fa-solid fa-floppy-disk"></i>
-                Salvar
-            </button>
-        </div>
-    </div>
-</form>
-
 {% endblock %}
 
 {% block scripts %}

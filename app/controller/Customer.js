@@ -2,12 +2,12 @@ import connection from '../database/Connection.js';
 export default class Customer {
     // Tabela no banco
     static table = 'customer';
-
+    //teste
     // Mapeamento: índice da coluna no DataTable → nome no banco
-    static #columns = ['id', 'nome', 'cpf', null];
+    static #columns = ['id', 'nome', 'cpf', 'rg', null];
 
     // Colunas pesquisáveis pelo termo de busca
-    static #searchable = ['nome', 'cpf'];
+    static #searchable = ['nome', 'cpf', 'rg'];
 
     //Insere um novo cliente.
     static async insert(data) {
@@ -138,4 +138,8 @@ export default class Customer {
 
         return clean;
     }
+    static async count() {
+    const [{ count }] = await connection(Customer.table).count('id as count');
+    return parseInt(count);
+}
 }

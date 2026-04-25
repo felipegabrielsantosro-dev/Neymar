@@ -9,10 +9,10 @@ app.whenReady().then(() => {
     const win = Template.create('main', {
         width: 1280,
         height: 800,
-        title: 'Heisenberg',
+        title: 'Deskivo',
     });
 
-    Template.loadView(win, 'pages/index');
+    Template.loadView(win, 'pages/home');
     win.maximize();
 });
 
